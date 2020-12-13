@@ -36,7 +36,7 @@ class NavigationBar extends Component {
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="https://github.com">
+                                    <NavLink href="https://github.com//SSewpaul">
                                         GitHub
                                     </NavLink>
                                 </NavItem>
