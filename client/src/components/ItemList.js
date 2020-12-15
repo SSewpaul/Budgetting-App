@@ -1,25 +1,22 @@
 import React,{ Component } from 'react'
 import {
-    Container, 
-    TableName, 
+    Container,
     Table,
     Button
 } from 'reactstrap';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {v4 as uuid} from 'uuid';
+import {connect} from 'react-redux';
+import {getItems} from '../actions/itemActions';
+import PropTypes from 'prop-types';
 
 class ItemList extends Component{
-    state={
-        items:[
-            {id:uuid(), name:'Milk', cost:100, category:'food', username:'John'},
-            {id:uuid(), name:'Water', cost:100, category:'food', username:'John'},
-            {id:uuid(), name:'spoon', cost:100, category:'other', username:'Jack'},
-            {id:uuid(), name:'rent', cost:100, category:'rent', username:'Jill'}
-        ]
+
+    componentDidMount(){
+        this.props.getItems();
     }
 
     render() {
-        const {items}=this.state;
+        const {items}=this.props.item;
         return(
             <Container>
                 <Button color="dark" 
@@ -38,19 +35,34 @@ class ItemList extends Component{
                 }>Add Item</Button>
         
                 <TransitionGroup>
-                    <Table>
+                    <Table hover style={{width:"50%"}}>
                         <thead>
                             <tr>
                                 <th>Item</th>
                                 <th>Cost</th>
+                                <th>Category</th>
                             </tr>
                         </thead>
-                        {items.map(({id,name,cost})=>(
+                        {items.map(({id,name,cost,category})=>(
                             <CSSTransition key={id} timeout={500} classNames="fade">
                                 <tbody>
                                     <tr>
-                                        <td>{name}</td>
+                                        <td>
+                                            <Button 
+                                                className="rm-btn"
+                                                color="danger"
+                                                size="sm"
+                                                onClick={()=>
+                                                {
+                                                    this.setState(state=>({
+                                                        items: state.items.filter(item=>item.id !==id)
+                                                    }));
+                                                }}>&times;
+                                            </Button>
+                                            {name}
+                                        </td>
                                         <td>{cost}</td>
+                                        <td>{category}</td>
                                     </tr>
                                 </tbody>
                             </CSSTransition>
@@ -62,4 +74,13 @@ class ItemList extends Component{
     }
 }
 
-export default ItemList;
+ItemList.propTypes={
+    getItems:PropTypes.func.isRequired,
+    item:PropTypes.object.isRequired
+};
+
+const mapStateToProps=(state)=>({
+    item:state.item
+});
+
+export default connect(mapStateToProps,{getItems})(ItemList);

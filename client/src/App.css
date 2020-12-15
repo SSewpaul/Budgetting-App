@@ -1,1 +1,23 @@
+.rm-btn{
+    margin-right: 0.5rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+}
 
+.fade-enter{
+    opacity:0.01;
+}
+
+.fade-enter-active{
+    opacity:1;
+    transition: opacity 2000ms ease-in;
+}
+
+.fade-exit{
+    opacity: 1;
+}
+
+.fade-exit-active{
+    opacity:1;
+    transition: opacity 2000ms ease-in;
+}
