@@ -1,15 +1,10 @@
-import { bindActionCreators } from 'redux';
-import {v4 as uuid} from 'uuid';
-import {GET_ITEMS, POST_ITEMS,DELETE_ITEMS} from '../actions/types';
+import {GET_ITEMS, POST_ITEMS,DELETE_ITEMS,ITEMS_LOADING} from '../actions/types';
 
 //defining the initial state of the items
 const initialState={
-    items:[
-        {id:uuid(), name:'Milk', cost:100, category:'food', username:'John'},
-        {id:uuid(), name:'Water', cost:100, category:'food', username:'John'},
-        {id:uuid(), name:'spoon', cost:100, category:'other', username:'Jack'},
-        {id:uuid(), name:'rent', cost:100, category:'rent', username:'Jill'}
-]}
+    items:[],
+    loading: false
+}
 
 /*
  * @desc perform relevant changes to the state based on the action 
@@ -17,20 +12,29 @@ const initialState={
  *         action - action that needs to be performed
  * @return new state
  */
-export default function(state=initialState,action)
+function itemReducer(state=initialState,action)
 {
     switch(action.type)
     {
         case GET_ITEMS:
             //returns current items
-            return{...state};
+            return{...state,items:action.payload,loading:false};
 
         case DELETE_ITEMS:
             //deletes the item with a specific id
-            return{...state, items: state.items.filter(item => item.id!=action.payload)};
+            return{...state, items: state.items.filter(item => item._id!==action.payload)};
+        
+        case POST_ITEMS:
+            //adds the item
+            return{...state, items: [action.payload,...state.items]};
+
+        
+        case ITEMS_LOADING:
+            return{...state,loading:true};
 
         default:
             return state;
     }
 }
 
+export default itemReducer;

@@ -8,7 +8,8 @@
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "client-server": "concurrently \"npm run server\" \"npm run client\"",
-    "client-dependencies": "cd client && npm install"
+    "client-dependencies": "cd client && npm install",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Sudhish Sewpaul",
   "license": "MIT",

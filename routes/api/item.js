@@ -9,9 +9,9 @@ const Item = require('../../models/Items.js');
  * @desc: get all the items for a user
  * @access Public
 */
-router.get('/Username/:uname', (req, res) => {
-    var uname = req.params.uname;
-    Item.find({ 'username': uname }, { '_id': 0 })
+router.get('/', (req, res) => {
+    //var uname = req.params.uname;
+    Item.find(/*{ 'username': uname }, { '_id': 0 }*/)
         .sort({ date: -1 })
         .then(item => res.json(item))
         .catch(err => res.status(404).json({ msg: 'Item not found' }))
@@ -23,18 +23,17 @@ router.get('/Username/:uname', (req, res) => {
  * @access Public
 */
 router.post('/', (req, res) => {
-    const {name,cost,category,username}=req.body;
+    const {name,cost,category}=req.body;
     
-    if(!name || !cost || !category || !username)
+    if(!name || !cost || !category)
     {
         res.status(400).json({msg: 'Fill all fields'});
     }
 
     var newItem = new Item({
-        itemName: name,
+        name: name,
         cost: cost,
-        category: category,
-        username: username,
+        category: category
     });
 
     newItem.save((err, insertedItem) => {
@@ -50,13 +49,13 @@ router.post('/', (req, res) => {
  * @desc: Delete an item
  * @access Public
 */
-router.delete('/ItemID/:itemId', (req, res) => {
+router.delete('/:itemId', (req, res) => {
     var DeletedItem = req.params.itemId;
     if (Item.findById(DeletedItem) == null) {
         res.status(404).json({ msg: "Item not found" });
     }
     else {
-        Item.deleteOne({ '_id': DeletedItem }, (deletedItem, err) => {
+        Item.deleteOne({ '_id': DeletedItem }, (err) => {
             if (err) {
                 res.status(409).json({ msg: "Delete failed" });
             }

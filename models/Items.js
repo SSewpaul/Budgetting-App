@@ -3,7 +3,7 @@ const Schema=mongoose.Schema;
 
 //Creating a schema
 const ItemSchema= new Schema({
-    itemName:{
+    name:{
         type: String,
         required: true
     },
@@ -14,24 +14,18 @@ const ItemSchema= new Schema({
     },
     cost:{
         type: Number,
-        minimum:0,
         required:true
     },
     category:{
         type:String,
         required:true
-    },
-    /*userId:{
-        type: Number,
-        required: true,
-    },*/
-    username:
+    }
+    /*username:
     {
         type: String,
         required: true
-    }
-}
-)
+    }*/
+})
 
 const Item =mongoose.model('item',ItemSchema);
 module.exports=Item;
