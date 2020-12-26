@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth=require('../../middleware/auth')
 
 //Item model
 const Item = require('../../models/Items.js');
@@ -7,7 +8,7 @@ const Item = require('../../models/Items.js');
 /* 
  * @route: GET item
  * @desc: get all the items for a user
- * @access Public
+ * @access Private
 */
 router.get('/', (req, res) => {
     //var uname = req.params.uname;
@@ -20,9 +21,9 @@ router.get('/', (req, res) => {
 /* 
  * @route: POST item
  * @desc: Create item
- * @access Public
+ * @access Private
 */
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
     const {name,cost,category}=req.body;
     
     if(!name || !cost || !category)
@@ -49,7 +50,7 @@ router.post('/', (req, res) => {
  * @desc: Delete an item
  * @access Public
 */
-router.delete('/:itemId', (req, res) => {
+router.delete('/:itemId', auth,(req, res) => {
     var DeletedItem = req.params.itemId;
     if (Item.findById(DeletedItem) == null) {
         res.status(404).json({ msg: "Item not found" });
