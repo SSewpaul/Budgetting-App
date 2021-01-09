@@ -19,12 +19,12 @@ const ItemSchema= new Schema({
     category:{
         type:String,
         required:true
-    }
-    /*username:
+    },
+    username:
     {
         type: String,
         required: true
-    }*/
+    }
 })
 
 const Item =mongoose.model('item',ItemSchema);

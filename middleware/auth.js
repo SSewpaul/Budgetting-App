@@ -3,10 +3,10 @@ const jwt= require('jsonwebtoken');
 
 function auth(req,res,next){
     const token= req.header('x-auth-token');
-    
+
     //Check for token
     if(!token){
-        res.status(401).end({msg:"Authorization denied"});
+        return res.status(401).json({msg:"Authorization denied"});
     }
 
     try{
@@ -19,7 +19,7 @@ function auth(req,res,next){
         next();
     } 
     catch(e){
-        res.status(400).end({msg: "Token is not verified"});
+        return res.status(400).end({msg: "Token is not verified"});
     }
 }
 

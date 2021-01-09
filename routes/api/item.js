@@ -10,12 +10,27 @@ const Item = require('../../models/Items.js');
  * @desc: get all the items for a user
  * @access Private
 */
-router.get('/', (req, res) => {
-    //var uname = req.params.uname;
-    Item.find(/*{ 'username': uname }, { '_id': 0 }*/)
-        .sort({ date: -1 })
-        .then(item => res.json(item))
-        .catch(err => res.status(404).json({ msg: 'Item not found' }))
+router.get('/:uname/:month/:year', auth,async (req, res) => {
+    var uname = req.params.uname;
+    var month = req.params.month;
+    var year = req.params.year;
+    const fromDate = new Date(year, month-1, 1);
+    const toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), 31);
+
+    await Item.find({ 
+        $and:[
+            {"date":
+                {
+                    $gte:fromDate,
+                    $lte:toDate
+                }
+            },
+            {"username":uname}
+        ]
+    })
+    .sort({ date: -1 })
+    .then(item => res.json(item))
+    .catch(err => res.status(404).json({ msg: 'Item not found' }))
 })
 
 /* 
@@ -24,7 +39,7 @@ router.get('/', (req, res) => {
  * @access Private
 */
 router.post('/', auth, (req, res) => {
-    const {name,cost,category}=req.body;
+    const {name,cost,category,username}=req.body;
     
     if(!name || !cost || !category)
     {
@@ -34,7 +49,8 @@ router.post('/', auth, (req, res) => {
     var newItem = new Item({
         name: name,
         cost: cost,
-        category: category
+        category: category,
+        username: username
     });
 
     newItem.save((err, insertedItem) => {

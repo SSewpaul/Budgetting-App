@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
     Collapse,
     Navbar,
@@ -9,11 +9,18 @@ import {
     NavLink,
     Container,
 } from 'reactstrap';
+import Logout from './Logout';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 class NavigationBar extends Component {
     state = {
         isOpen: false
     };
+
+    static propTypes={
+        auth: PropTypes.object.isRequired
+    }
 
     toggle = () => {
         this.setState({
@@ -22,6 +29,40 @@ class NavigationBar extends Component {
     }
 
     render(){
+        const {isAuth, user}= this.props.auth;
+        console.log(isAuth);
+        const loggedInLink=(
+            <Fragment>
+                <NavItem>
+                    <NavLink href="https://github.com//SSewpaul">
+                        GitHub
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <Logout/>
+                </NavItem>
+                <NavItem>
+                    <span className="navbar-text ml-2"><strong>{user? `Hello ${user.username}!`:''}</strong></span>
+                </NavItem>
+            </Fragment>
+        );
+
+        const notAuthLinks=(
+            <Fragment>
+                <NavItem>
+                    <NavLink href="/login">
+                        Login/Register
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="https://github.com//SSewpaul">
+                        GitHub
+                    </NavLink>
+                </NavItem> 
+            </Fragment>
+        );
+
+
         return(
             <div>
                 <Navbar color="dark" dark expand="md">
@@ -30,16 +71,7 @@ class NavigationBar extends Component {
                         <NavbarToggler onClick={this.toggle}></NavbarToggler>
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" style={{position: "absolute-right"}} navbar>
-                                <NavItem>
-                                    <NavLink href="/profile">
-                                        Profile
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink href="https://github.com//SSewpaul">
-                                        GitHub
-                                    </NavLink>
-                                </NavItem>
+                                {isAuth ? loggedInLink:notAuthLinks};                                      
                             </Nav>
                         </Collapse>
                     </Container>
@@ -49,4 +81,8 @@ class NavigationBar extends Component {
     }
 }
 
-export default NavigationBar;
+const mapStateToProps = state =>({
+    auth:state.auth
+});
+
+export default connect(mapStateToProps,null)(NavigationBar);

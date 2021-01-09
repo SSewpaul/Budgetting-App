@@ -11,12 +11,55 @@ import PropTypes from 'prop-types';
 
 class ItemList extends Component{
 
+    state={
+        username:''
+    };
+
     componentDidMount(){
-        this.props.getItems();
+        this.props.getItems(localStorage.getItem("username"),1,2021);
+        console.log(localStorage.getItem("username"));
     }
+
+    static propTypes={
+        auth:PropTypes.object.isRequired
+    }
+
+    loggedIn=uname=>
+    {
+        this.setState({username:uname});
+    }
+    //componentDidUpdate()
+    //{
+    //    const {isAuth,user}=this.props.auth
+    //    if(isAuth){
+    //        this.props.getItems(user.username,1,2021);
+    //    }
+    //}
+
+    //onChange=(e)=>
+    //{
+    //    e.preventDefault();
+    //    var tot=0;
+    //    items.forEach(({cost})=>(tot+={cost}));
+    //    this.setState({total:tot});
+    //}
 
     render() {
         const {items}=this.props.item;
+        var total=0;
+        var expenses=0;
+        var incomes=0;
+        items.map(function(item)
+        {
+            total+=item.cost;
+            if(item.cost<=0){
+                expenses+=item.cost;
+            }
+            else{
+                incomes+=item.cost;
+            }
+        });
+
         return(
             <Container>
                 <TransitionGroup>
@@ -47,7 +90,10 @@ class ItemList extends Component{
                                     </tr>
                                 </tbody>
                             </CSSTransition>
-                        ))}
+                        ))}                   
+                        <tr>net revenue={incomes}</tr>                     
+                        <tr>net expense={expenses}</tr>
+                        <tr>net amount={total}</tr>                    
                     </Table>
                 </TransitionGroup>
             </Container>
@@ -62,7 +108,8 @@ ItemList.propTypes={
 };
 
 const mapStateToProps=(state)=>({
-    item:state.item
+    item:state.item,
+    auth:state.auth
 });
 
 export default connect(mapStateToProps,{getItems,deleteItem})(ItemList);

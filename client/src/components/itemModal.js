@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import {connect} from 'react-redux';
 import {postItem} from '../actions/itemActions';
-import { v4 as uuid } from 'uuid';
+import PropTypes from 'prop-types';
 
 class ItemModal extends Component{
     state={
@@ -24,7 +24,7 @@ class ItemModal extends Component{
 
     toggle=()=>{
         this.setState({
-            isModalOpen: !this.state.isModalOpen
+            isModalOpen: !this.state.isModalOpen,
         });
     };
 
@@ -55,19 +55,21 @@ class ItemModal extends Component{
     onSubmit=e =>{
         e.preventDefault();
         const newItem={
-            id:uuid(),
             name:this.state.name,
             cost:this.state.cost,
-            category:this.state.category
+            category:this.state.category,
+            username: localStorage.getItem("username")
         };
-
         this.props.postItem(newItem);
         this.toggle();
         
     };
 
+    static propTypes={
+        auth: PropTypes.object.isRequired
+    }
+
     render(){
-        
         return(
             <div>
                 <Button
@@ -122,6 +124,5 @@ class ItemModal extends Component{
 const mapStateToProp= state=>({
     item:state.item
 });
-
 export default connect(mapStateToProp,{postItem})(ItemModal);
 

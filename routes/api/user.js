@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     //validation
     if (!username || !email || !password) 
     {
-        res.status(400).json({msg:"Enter all fields"});
+        return res.status(400).json({msg:"Enter all fields"});
     }
 
     //Checking if username already exists

@@ -24,16 +24,16 @@ router.post('/', (req, res) => {
 
     //Checking if username already exists
     User.findOne({'username':username})
-    .then(user=>{
+    .then(async user=>{
 
         if(!user) return res.status(400).send({msg:"Account does not exist"});
     
         //Validate password
-        bcrypt.compare(password,user.password)
+        await bcrypt.compare(password,user.password)
         .then(isSame=>{
             if(!isSame)
             {
-                return res.status(400).send({msg: "Invalid email or password"});
+                return res.status(400).send({msg: "Invalid password"});
             }
         });
 
@@ -68,6 +68,7 @@ router.post('/', (req, res) => {
 */
 
 router.get('/user',auth,(req,res)=>{
+    console.log(req.user.id);
     User.findById(req.user.id,{'password':0})
     .then(user=>res.json(user));
 });
