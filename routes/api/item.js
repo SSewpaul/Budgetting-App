@@ -14,8 +14,21 @@ router.get('/:uname/:month/:year', auth,async (req, res) => {
     var uname = req.params.uname;
     var month = req.params.month;
     var year = req.params.year;
-    const fromDate = new Date(year, month-1, 1);
-    const toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), 31);
+    const fromDate = new Date(year, month, 1);
+    var toDate;
+    switch(fromDate.getMonth())
+    {
+        case 0:
+        case 2:
+        case 4:
+        case 6:
+        case 7:
+        case 9:
+        case 11:
+            toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), 31);
+        default:
+            toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), 30);
+    }
 
     await Item.find({ 
         $and:[

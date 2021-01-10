@@ -98,6 +98,12 @@ class RegistrationPage extends Component
                     <Col>
                     <Button color="primary"block className="md">Register</Button>
                     </Col>
+                    <br></br>
+                    <Col>
+                    <p style={{textAlign:"center"}}>Already have an account?
+                    <Button color="primary"block className="md" href="/login">Login</Button>
+                    </p>
+                    </Col>
                 </Form>
 
             </Container>
