@@ -101,10 +101,13 @@ class ItemModal extends Component{
                                 <Label for="catgory">Category</Label>
                                 <select name="Category" id="category" value={this.state.category} placeholder=" "  onChange={this.onCategoryChange} style={{marginLeft: '1rem'}}>
                                     <option value=" "></option>
-                                    <option value="food">food</option>
+                                    <option value="food">utilities</option>
                                     <option value="rent">rent</option>
                                     <option value="saving">saving</option>
                                     <option value="income">income</option>
+                                    <option value="utilities">utilities</option>
+                                    <option value="entertainment">entertainment</option>
+                                    <option value="other">other</option>
                                 </select>
                                 <br></br>
                                 <Button>Add Item</Button>
