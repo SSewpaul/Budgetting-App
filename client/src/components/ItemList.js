@@ -153,16 +153,20 @@ class ItemList extends Component{
 
         return(
             <Container>
-                <Button style={{marginInline:"left"}} onClick={()=>this.prevMonth()}>&#171;</Button>
-                &nbsp;
-                <div style={{
-                    width:"44%",
-                    height:"auto",
-                    display:"inline-block"
-                    }}>
-                    <h2 style={{textAlign:"center"}}>{this.state.strMonth},{this.state.year}</h2>
-                </div>
-                <Button onClick={()=>this.nextMonth()}>&#187;</Button>
+
+                {this.props.auth.isAuth?
+                <div> 
+                    <Button style={{marginInline:"left"}} onClick={()=>this.prevMonth()}>&#171;</Button>
+                    <div style={{
+                        width:"44%",
+                        height:"auto",
+                        display:"inline-block"
+                        }}>
+                        <h2 style={{textAlign:"center"}}>{this.state.strMonth},{this.state.year}</h2>
+                    </div>
+                    <Button onClick={()=>this.nextMonth()}>&#187;</Button>
+                </div>: null}
+                
                 <br></br>
                 <TransitionGroup>
                     <Table hover style={{width:"50%"}}>
@@ -192,10 +196,14 @@ class ItemList extends Component{
                                     </tr>
                                 </tbody>
                             </CSSTransition>
-                        ))}                   
-                        <tr>net revenue={incomes}</tr>                     
-                        <tr>net expense={expenses}</tr>
-                        <tr>net amount={total}</tr>                    
+                        ))}
+
+                    {this.props.auth.isAuth?
+                        <div>                
+                            <tr>net revenue={incomes}</tr>                     
+                            <tr>net expense={expenses}</tr>
+                            <tr>net amount={total}</tr>
+                        </div>: null}                 
                     </Table>
                 </TransitionGroup>
             </Container>
