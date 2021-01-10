@@ -162,7 +162,7 @@ class ItemList extends Component{
                         height:"auto",
                         display:"inline-block"
                         }}>
-                        <h2 style={{textAlign:"center"}}>{this.state.strMonth}, &nbsp; {this.state.year}</h2>
+                        <h2 style={{textAlign:"center"}}>{this.state.strMonth}, {this.state.year}</h2>
                     </div>
                     <Button onClick={()=>this.nextMonth()}>&#187;</Button>
                 </div>: null}
