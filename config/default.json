@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
     "mongoURI":"mongodb+srv://root:V6nOOzy8qf4mnv63@cluster0.iqkvs.mongodb.net/?retryWrites=true&w=majority",
     "jwtSecret":"Bugetting_APP[jwt](secretValue)"
-=======
-    "mongoURI":"INSERT URI",
-    "jwtSecret":"INSERT KEY"
->>>>>>> d9b7110d988b7fd956577bddcc87e86dc6595f75
 }
